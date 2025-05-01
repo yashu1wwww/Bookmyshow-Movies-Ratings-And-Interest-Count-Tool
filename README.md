@@ -1,6 +1,6 @@
 # Bookmyshow-Movies-Ratings-And-Interest-Count-Tool
 
-## Bookmyshow Movies &amp; Interest Count Tool Using Express Js &amp; Puppeteer
+## Bookmyshow Movies Ratings and Interest Count Tool Using Express Js &amp; Puppeteer
 
 ## Ratings are scraped using the div class. However, if BMS updates its structure, the div class used for extraction may also change.
 
