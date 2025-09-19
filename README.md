@@ -10,7 +10,9 @@
 
 ![Interest](https://raw.githubusercontent.com/yashu1wwww/Bookmyshow-Movies-Ratings-And-Interest-Count-Tool/refs/heads/main/Screenshot_2025-08-03_12_51_30%7E2.png).
 
-**BookMyShow Movies Auto Interest With Multiple Accounts:** [`Bookmyshow-Movies-Auto-Interest-With-Multiple-Accounts](https://github.com/unknown12300/Bookmyshow-Movies-Auto-Interest-With-Multiple-Accounts)  
+**BookMyShow Movies Auto Interest With Multiple Accounts:**
+<br>
+[Bookmyshow-Movies-Auto-Interest-With-Multiple-Accounts](https://github.com/unknown12300/Bookmyshow-Movies-Auto-Interest-With-Multiple-Accounts)  
 
 
 ## Ratings are scraped using the div class. However, if BMS updates its structure, the div class used for extraction may also change.
