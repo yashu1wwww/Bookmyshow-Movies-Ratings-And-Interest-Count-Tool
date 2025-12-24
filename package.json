@@ -1,14 +1,17 @@
 {
   "name": "bookmyshow-scraper",
   "version": "1.0.0",
+  "description": "Fetch BookMyShow movie ratings and interest counts",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "dependencies": {
     "express": "^4.18.2",
     "puppeteer": "^21.7.0"
   },
-  "engines": {
-    "node": "18.x"
-  }
+  "keywords": ["bookmyshow", "scraper", "puppeteer", "movie", "rating"],
+  "author": "Yashwanth R",
+  "license": "MIT"
 }
