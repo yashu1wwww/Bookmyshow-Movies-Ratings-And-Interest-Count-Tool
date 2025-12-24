@@ -16,12 +16,12 @@ app.get('/', (req, res) => {
     <head>
       <meta charset="UTF-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	     <link rel="icon" href="https://favicon-generator.org/favicon-generator/htdocs/favicons/2015-02-02/042180ff74ed65b9baae3da9a0c8f809.ico" type="image/x-icon">
+	     <link rel="icon" href="https://assets-in.bmscdn.com/m6/images/icons/new-logo-152.png" type="image/x-icon">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Bookmyshow Rating & Interest Count Fetcher</title>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
       <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Poppins    :wght@300;400;500;600;700&display=swap" rel="stylesheet">
       <style>
         * {
           margin: 0;
@@ -311,16 +311,22 @@ app.get('/search', async (req, res) => {
   const type = req.query.type || 'rating';
   if (!query) return res.redirect('/');
 
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-blink-features=AutomationControlled',
-      '--disable-dev-shm-usage',
-    ],
-    defaultViewport: { width: 1280, height: 800 }
-  });
+ const browser = await puppeteer.launch({
+  headless: true,
+  args: [
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-dev-shm-usage',
+    '--disable-gpu',
+    '--single-process',
+    '--no-zygote',
+    '--disable-web-security',
+    '--disable-features=VizDisplayCompositor'
+  ],
+  executablePath: process.env.RENDER
+    ? '/opt/render/project/src/node_modules/puppeteer/.local-chromium/linux-*/chrome-linux/chrome'
+    : undefined,
+});
 
   const page = await browser.newPage();
 
@@ -343,7 +349,7 @@ app.get('/search', async (req, res) => {
 
   const searchQuery = encodeURIComponent(query + " bookmyshow site:bookmyshow.com");
 
-  await page.goto(`https://www.google.com/search?q=${searchQuery}`, { waitUntil: 'domcontentloaded' });
+await page.goto(`https://www.google.com/search?q=${searchQuery}`, { waitUntil: 'domcontentloaded', timeout: 10000 });
 
   const firstLinkSelector = 'h3';
   await page.waitForSelector(firstLinkSelector);
@@ -353,21 +359,33 @@ app.get('/search', async (req, res) => {
 
   let result;
 
-  if (type === 'rating') {
-    try {
-      await page.waitForSelector('.sc-ycjzp1-4.jeTxcB', { timeout: 5000 });
-      result = await page.$eval('.sc-ycjzp1-4.jeTxcB', el => el.innerText);
-    } catch (error) {
-      result = 'Rating not found';
-    }
-  } else if (type === 'interest') {
-    try {
-      await page.waitForSelector('.sc-15uprjp-1.lfDvlb', { timeout: 5000 });
-      result = await page.$eval('.sc-15uprjp-1.lfDvlb', el => el.innerText);
-    } catch (error) {
-      result = 'Interest count not found';
-    }
+if (type === 'rating') {
+  try {
+    result = await page.evaluate(() => {
+      const spans = Array.from(document.querySelectorAll('span'));
+      const ratingSpan = spans.find(s => /^\s*\d+(\.\d+)?\/10\s*$/.test(s.textContent));
+      const votesSpan = spans.find(s => /^\s*\(.*\s+Votes\)\s*$/.test(s.textContent));
+      if (ratingSpan) {
+        const rating = ratingSpan.textContent.trim();
+        const votes = votesSpan ? votesSpan.textContent.trim() : '';
+        return `${rating} ${votes}`.trim();
+      }
+      return 'Rating not found';
+    });
+  } catch (e) {
+    result = 'Rating not found';
   }
+} else if (type === 'interest') {
+  try {
+    result = await page.evaluate(() => {
+      const spans = Array.from(document.querySelectorAll('span'));
+      const match = spans.find(s => /interested/i.test(s.textContent));
+      return match ? match.textContent.trim() : 'Interest count not found';
+    });
+  } catch (e) {
+    result = 'Interest count not found';
+  }
+}
 
   console.log(`${type === 'rating' ? 'Rating' : 'Interest Count'}:`, result);
 
@@ -379,3 +397,5 @@ app.get('/search', async (req, res) => {
 app.listen(port, () => {
   console.log(`✅ Server running at http://localhost:${port}`);
 });
+
+
