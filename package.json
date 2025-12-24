@@ -1,18 +1,14 @@
 {
-  "name": "bookmyshow-rating-interest-fetcher",
+  "name": "bookmyshow-scraper",
   "version": "1.0.0",
-  "description": "A tool to fetch BookMyShow movie ratings and interest count using Puppeteer",
-  "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node index.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
-    "puppeteer": "^23.3.0"
+    "express": "^4.18.2",
+    "puppeteer": "^21.7.0"
   },
   "engines": {
-    "node": ">=14.0.0"
-  },
-  "author": "Yashwanth R",
-  "license": "MIT"
+    "node": "18.x"
+  }
 }
