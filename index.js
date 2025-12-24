@@ -311,22 +311,16 @@ app.get('/search', async (req, res) => {
   const type = req.query.type || 'rating';
   if (!query) return res.redirect('/');
 
- const browser = await puppeteer.launch({
-  headless: true,
-  args: [
-    '--no-sandbox',
-    '--disable-setuid-sandbox',
-    '--disable-dev-shm-usage',
-    '--disable-gpu',
-    '--single-process',
-    '--no-zygote',
-    '--disable-web-security',
-    '--disable-features=VizDisplayCompositor'
-  ],
-  executablePath: process.env.RENDER
-    ? '/opt/render/project/src/node_modules/puppeteer/.local-chromium/linux-*/chrome-linux/chrome'
-    : undefined,
-});
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-blink-features=AutomationControlled',
+      '--disable-dev-shm-usage',
+    ],
+    defaultViewport: { width: 1280, height: 800 }
+  });
 
   const page = await browser.newPage();
 
@@ -397,5 +391,6 @@ if (type === 'rating') {
 app.listen(port, () => {
   console.log(`✅ Server running at http://localhost:${port}`);
 });
+
 
 
