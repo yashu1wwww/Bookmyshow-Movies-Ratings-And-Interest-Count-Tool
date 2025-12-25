@@ -5,10 +5,18 @@
 ## To run this on your system, install Node.js, install the required packages in the project
 
 <p align="center">
+  <strong>Bms Ratings Screenshot</strong>
+</p>
+
+<p align="center">
   <img src="https://raw.github.com/yashu1wwww/Bookmyshow-Movies-Ratings-And-Interest-Count-Tool/refs/heads/main/bms_ratings.png" alt="Ratings Tool Screenshot" width="700">
 </p>
 
 ---
+
+<p align="center">
+  <strong>Bms Interest Screenshot</strong>
+</p>
 
 <p align="center">
   <img src="https://github.com/yashu1wwww/Bookmyshow-Movies-Ratings-And-Interest-Count-Tool/blob/main/bms_interest.png" alt="Interest Tool Screenshot" width="700">
