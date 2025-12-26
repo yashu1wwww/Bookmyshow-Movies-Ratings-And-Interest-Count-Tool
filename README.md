@@ -22,6 +22,11 @@
   <img src="https://github.com/yashu1wwww/Bookmyshow-Movies-Ratings-And-Interest-Count-Tool/blob/main/bms_interest.png" alt="Interest Tool Screenshot" width="700">
 </p>
 
+# To Get exact ratings
+##Enter movie name with year
+
+# ex: Avatar: Fire and Ash 2025
+
 
 # npm install
 
